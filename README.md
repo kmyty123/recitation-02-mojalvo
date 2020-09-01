@@ -1,7 +1,7 @@
 # CMPS 2200  Recitation 02
 
-**Name (Team Member 1):**_________________________  
-**Name (Team Member 2):**_________________________
+**Name (Team Member 1):** Daniel Licht 
+**Name (Team Member 2):** Marc Ojalvo
 
 In this recitation, we will investigate recurrences. 
 To complete this recitation, follow the instructions in this document. Some of your answers will go in this file, and others will require you to edit `main.py`.
@@ -48,7 +48,21 @@ where $W(1) = 1$.
 
 - [ ] 4. (2 point) Now, derive the asymptotic behavior of $W(n)$ using $f(n) = 1$, $f(n) = n$, and $f(n) = n^2$  with $a=2$ and $b=2$. Then, generate actual values for $W(n)$ for your code and confirm that the trends match your derivations.
 
-**TODO: your answer goes here**
+f(n) = 1:
+W(n) = c_b if n = 1,
+			2W(n/2) + c_1 + c_2, otherwise
+
+W(n) = 2W(n/2) + c_1 + c_2
+i = 0, size = n: cost = c_1+c_2
+i = 1, size = n/2: cost = 2(c_1 + c_2)
+i = 2, size = n/4: cost = 4(c_1 + c_2)
+i = i, size = n/2^i: cost = 2^i(c_1 + c_2)
+
+= sum from i=0 to lg n of 2^i(c_1 + c_2) = c_1+c_2 which is in O(1).
+So W(n) in O(1)
+
+f(n) = n: following same process, as outlined in class notes, W(n) in O(n*log n)
+f(n) = n^2:  following same process, as outlined in class notes, W(n) in O(n^2)
 
 - [ ] 5. (4 points) Now that you have a nice way to empirically generate values of $W(n)$, we can look at the relationship between $a$, $b$, and $f(n)$. Suppose that $f(n) = n^c$. What is the asymptotic behavior of $W(n)$ if $c < \log_b a$? What about $c > \log_b a$? And if they are equal? Modify `compare_work` to compare empirical values for different work functions (at several different values of $n$) to justify your answer. 
 
