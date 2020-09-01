@@ -17,14 +17,19 @@ def simple_work_calc(n, a, b):
 
 	Returns: the value of W(n).
 	"""
-	# TODO
-	pass
+	if n == 1:
+		return 1
+	return (a*simple_work_calc(n/b, a, b))+n
 
 def test_simple_work():
 	""" done. """
 	assert simple_work_calc(8, 2, 2) == 32
-	assert simple_work_calc(8, 3, 2) == 1  #TODO: fix
-	assert simple_work_calc(9, 2, 3) == 1  #TODO: fix
+	assert simple_work_calc(8, 3, 2) == 65
+	assert simple_work_calc(9, 2, 3) == 19
+	assert simple_work_calc(16, 2, 4) == 28
+	assert simple_work_calc(32, 2, 2) == 192
+	assert simple_work_calc(36, 4, 6) == 76
+	
 
 def work_calc(n, a, b, f):
 	"""Compute the value of the recurrence $W(n) = aW(n/b) + f(n)
@@ -38,8 +43,13 @@ def work_calc(n, a, b, f):
 
 	Returns: the value of W(n).
 	"""
-	# TODO
-	pass
+	if n == 1:
+		return 1
+	return (a*work_calc(n/b, a, b, f))+f(n)
+
+print(work_calc(8, 2, 2, lambda n: 1))
+print(work_calc(8, 2, 2, lambda n: n))
+print(work_calc(8, 2, 2, lambda n: n*n))
 
 def span_calc(n, a, b, f):
 	"""Compute the span associated with the recurrence $W(n) = aW(n/b) + f(n)
@@ -59,9 +69,12 @@ def span_calc(n, a, b, f):
 def test_work():
 	""" done. """
 	assert work_calc(8, 2, 2,lambda n: n) == 32 
-	assert work_calc(8, 1, 2, lambda n: n*n) == 1 # TODO: fix
-	assert work_calc(8, 3, 2, lambda n: 1) == 1   # TODO: fix
-
+	assert work_calc(8, 1, 2, lambda n: n*n) == 85
+	assert work_calc(8, 3, 2, lambda n: 1) == 40
+	assert work_calc(9, 2, 3, lambda n: 2*n) == 34
+	assert work_calc(8, 2, 2, lambda n: n*3) == 80
+	assert work_calc(343, 2, 7, lambda n: n*n*n) == 40590285
+	
 def compare_work(work_fn1, work_fn2, sizes=[10, 20, 50, 100, 1000, 5000, 10000]):
 	"""
 	Compare the values of different recurrences for 
