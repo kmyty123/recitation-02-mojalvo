@@ -5,6 +5,7 @@ CMPS 2200  Recitation 2
 ### the only imports needed are here
 import tabulate
 import time
+import math #for test_compare_work extra test
 ###
 
 def simple_work_calc(n, a, b):
@@ -49,7 +50,7 @@ def work_calc(n, a, b, f):
 
 i = 2
 
-#generate actual values for W(n)
+#generate actual values for W(n) for number 4
 while i < 65:
 	print("======== "+ str(i) + " ========")
 	print(work_calc(i, 2, 2, lambda n: 1))
@@ -127,9 +128,19 @@ def test_compare_work():
     
 	# create work_fn1
 	# create work_fn2
-	
+	a = 2
+	b = 3
+	work_fn1 = curry(a = 2, b = 3, f = lambda n: n**(math.log(a, b)))
+	a = 3
+	b = 2
+	work_fn2 = curry(a = 3, b = 2, f = lambda n: n**(math.log(a, b)))
 	res = compare_work(work_fn1, work_fn2)
 	print_work_results(res)
+
+def curry(a, b, f):
+	return lambda n: work_calc(n, a, b, f)
+
+
 
 def compare_span(span_fn1, span_fn2, sizes=[10, 20, 50, 100, 1000, 5000, 10000]):
 	"""
