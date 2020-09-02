@@ -74,6 +74,32 @@ For f(n) = n^2,  we genearate values 6, 28, 120, 496, 2016, 8128 for n = 2, 4, 8
 
 - [ ] 5. (4 points) Now that you have a nice way to empirically generate values of $W(n)$, we can look at the relationship between $a$, $b$, and $f(n)$. Suppose that $f(n) = n^c$. What is the asymptotic behavior of $W(n)$ if $c < \log_b a$? What about $c > \log_b a$? And if they are equal? Modify `compare_work` to compare empirical values for different work functions (at several different values of $n$) to justify your answer. 
 
+When b = a, we always have log_b(a) = 1 the complexity of W(n) is O(n) as seen in question 4 part 1. In this case, if c < log_b(a) the complexity of W(n) will be significantly less than if c > log_b(a). But if b > a, c < 1, and conversely if b < a, c > 1. Thus, if b < a the slope of f(n) will increase as n increases and if b > a the slope of f(n) will decrease as n increases, meaning the asymptotic complexity of f(n) when b < a (c > 1) will be significantly greater than if  b > a (c < 1). So complexity of x < y < z, where f(n) = x, y, and z with c < log_b(a) for x, c = log_b(a) for y, and c > log_b(a) for z.
+
+
+a=b=2, f(n)=n^.75, f(n) = n^1.5
+main.py |     n |       W_1 |         W_2 |
+|-------|-----------|-------------|
+|    10 |    27.038 |      73.297 |
+|    20 |    63.533 |     236.037 |
+|    50 |   166.095 |    1002.544 |
+|   100 |   363.812 |    3005.088 |
+|  1000 |  3847.998 |  102240.295 |
+|  5000 | 24847.055 | 1184225.930 |
+| 10000 | 50694.111 | 3368451.860 |
+
+f(n) = n**log_b(a) for both, a = 2 b = 3 for W_1, a = 3 b = 2 for W_2
+main.py |     n |         W_1 |          W_2 |
+|-------|-------------|--------------|
+|    10 |      53.865 |      130.912 |
+|    20 |     169.595 |      508.103 |
+|    50 |     714.225 |     2615.101 |
+|   100 |    2229.687 |     9324.156 |
+|  1000 |   87377.597 |   497988.024 |
+|  5000 | 1121497.493 |  8757288.908 |
+| 10000 | 3366037.153 | 28458872.868 |
+
+
 For f(n) = n^c where c < log_b a, a = 2, b = 2 we have
 W(n) = 2W(n/2) + c_1*n^c + c_2
 i = 0, size = n: cost = c_1(n^c)+c_2
@@ -86,7 +112,7 @@ W(n) < lg(n) - i(c-1) + c_2 so
 W(n) in O(log n)
 
 Conversely, when c > log_b a, a = 2, b = 2, we have
-W(n) in Omega(log n)
+W(n) in Omega(log n) and in Omega(n) because c when c = log_b(a) and a = b, W(n) in O(n), thus when c > log_b with a=b, W(n) in O(n^2).
 
 
 - [ ] 6. (3 points) $W(n)$ is meant to represent the running time of some recursive algorithm. Suppose we always had $a$ processors available to us and we wanted to compute the span of the same algorithm. Implement the function `span_calc` to compute the empirical span, where the work of the algorithm is given by $W(n)$. Implement `test_compare_span` to create a new comparison function for comparing span functions. Derive the asymptotic expressions for the span of the recurrences you used in problem 4 above. Confirm that everything matches up as it should. 
