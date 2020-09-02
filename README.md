@@ -58,15 +58,36 @@ i = 1, size = n/2: cost = 2(c_1 + c_2)
 i = 2, size = n/4: cost = 4(c_1 + c_2)
 i = i, size = n/2^i: cost = 2^i(c_1 + c_2)
 
-= sum from i=0 to lg n of 2^i(c_1 + c_2) = c_1+c_2 which is in O(1).
-So W(n) in O(1)
+= sum from i=0 to lg n of 2^i(c_1 + c_2) = n(c_1+c_2) which is in O(n).
+So W(n) in O(n)
 
 f(n) = n: following same process, as outlined in class notes, W(n) in O(n*log n)
+
 f(n) = n^2:  following same process, as outlined in class notes, W(n) in O(n^2)
+
+Explanation of code confirming answers at lines 53-58 of main.py:
+For f(n) = 1, we generate values 3, 7, 15, 31, 63, 127 for n = 2, 4, 8, 16, 32, 64. Using OEIS.org, we see that this is equal to the sequence 2^(n-1) and taking the sum from i=0 to lg n yields lg(2^(n-1)) which corresponds to n.
+
+For f(n) = n, we generate values 4, 12, 32, 80, 192, 448 for n = 2, 4, 8, 16, 32, 64. We see that this is equal to the sequence 2^(n-1)*n which corresponds to n*log n when taking the sum from i=0 to lg n.
+
+For f(n) = n^2,  we genearate values 6, 28, 120, 496, 2016, 8128 for n = 2, 4, 8, 16, 32, 64 which equals the sequence  2^(n-1)*(2^n - 1) which is analogous to 2^(n^2) and when taking the sum from i=0 to lg n we have lg(2^(n^2)) which corresponds to n^2.
 
 - [ ] 5. (4 points) Now that you have a nice way to empirically generate values of $W(n)$, we can look at the relationship between $a$, $b$, and $f(n)$. Suppose that $f(n) = n^c$. What is the asymptotic behavior of $W(n)$ if $c < \log_b a$? What about $c > \log_b a$? And if they are equal? Modify `compare_work` to compare empirical values for different work functions (at several different values of $n$) to justify your answer. 
 
-**TODO: your answer goes here**
+For f(n) = n^c where c < log_b a, a = 2, b = 2 we have
+W(n) = 2W(n/2) + c_1*n^c + c_2
+i = 0, size = n: cost = c_1(n^c)+c_2
+i = 1, size = n/2: cost = c_1((n^c)/2^(c-1))+2c_2
+i = 2, size = n/4: cost = c_1((n^c)/2^2(c-1))+2c_2
+i = i, size = n/2^i: cost = c_1((n^c)/2^i(c-1))+2^i*c_2
+= sum from i=0 to lg n of c_1((n^c)/2^i(c-1))+2^i*c_2
+< lg(n^c) - i*(c-1) + c_2 = lg(n) - i(c-1) + c_2. so:
+W(n) < lg(n) - i(c-1) + c_2 so
+W(n) in O(log n)
+
+Conversely, when c > log_b a, a = 2, b = 2, we have
+W(n) in Omega(log n)
+
 
 - [ ] 6. (3 points) $W(n)$ is meant to represent the running time of some recursive algorithm. Suppose we always had $a$ processors available to us and we wanted to compute the span of the same algorithm. Implement the function `span_calc` to compute the empirical span, where the work of the algorithm is given by $W(n)$. Implement `test_compare_span` to create a new comparison function for comparing span functions. Derive the asymptotic expressions for the span of the recurrences you used in problem 4 above. Confirm that everything matches up as it should. 
 
