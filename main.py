@@ -17,9 +17,9 @@ def simple_work_calc(n, a, b):
 
 	Returns: the value of W(n).
 	"""
-	if n == 1:
+	if n <= 1:
 		return 1
-	return (a*simple_work_calc(n/b, a, b))+n
+	return (a*simple_work_calc(n//b, a, b))+n
 
 def test_simple_work():
 	""" done. """
@@ -43,13 +43,21 @@ def work_calc(n, a, b, f):
 
 	Returns: the value of W(n).
 	"""
-	if n == 1:
+	if n <= 1:
 		return 1
-	return (a*work_calc(n/b, a, b, f))+f(n)
+	return (a*work_calc(n//b, a, b, f))+f(n)
 
-print(work_calc(8, 2, 2, lambda n: 1))
-print(work_calc(8, 2, 2, lambda n: n))
-print(work_calc(8, 2, 2, lambda n: n*n))
+i = 2
+
+#generate actual values for W(n)
+while i < 65:
+	print("======== "+ str(i) + " ========")
+	print(work_calc(i, 2, 2, lambda n: 1))
+	print(work_calc(i, 2, 2, lambda n: n))
+	print(work_calc(i, 2, 2, lambda n: n*n))
+	i *= 2
+
+
 
 def span_calc(n, a, b, f):
 	"""Compute the span associated with the recurrence $W(n) = aW(n/b) + f(n)
